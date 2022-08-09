@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
+    "bignumber.js": "^9.1.0",
     "graphql": "^16.5.0",
     "next": "12.2.4",
     "react": "18.2.0",
