@@ -1,1 +1,1 @@
-export { default as PoolsList } from './pools-list'
+export { default as PoolsList } from "./pools-list";
