@@ -4,9 +4,9 @@ import Image from 'next/image'
 
 const Home: NextPage = () => {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Main 
-    </h1>
+    <div>
+      Pools
+    </div>
   )
 }
 
