@@ -16,7 +16,7 @@ const PoolsList: NextPage<Props> = ({ legend, pools, noDataMsg }) => {
     <div className="max-auto my-3 p-5">
       <legend className="text-2xl pb-3">{legend}</legend>
       <div className="rounded-lg bg-gray-100 p-3 overflow-x-auto relative shadow-md sm:rounded-lg">
-        {!pools.length ? (
+        {!pools?.length ? (
           <span className="bg-gray-100 p-3">{noDataMsg}</span>
         ) : (
           <table className="w-full text-md text-left text-gray-500 dark:text-gray-400">
