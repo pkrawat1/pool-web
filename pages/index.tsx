@@ -1,12 +1,15 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import { useQuery, gql } from '@apollo/client'
+import {GET_POOLS_LIST} from './../gql'
+import { PoolsList } from './../components'
 
 const Home: NextPage = () => {
+  const { loading, error, data } = useQuery(GET_POOLS_LIST);
+
   return (
-    <h1 className="text-3xl font-bold underline">
-      Main 
-    </h1>
+    <main className="container">
+      <PoolsList pools={data?.pools} />
+    </main>
   )
 }
 
