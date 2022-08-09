@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3",
+  uri: process.env.NEXT_PUBLIC_API_URL,
   cache: new InMemoryCache(),
 });
 
