@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   return (
     <main>
       <PoolsList pools={favoritePools} legend={"Pool Watch list"} noDataMsg={"Saved pools here"} />
-      <PoolsList pools={data?.pools} legend={"All Pools"} />
+      <PoolsList pools={data?.pools} legend={"All Pools"} noDataMsg={"All pools here"} />
     </main>
   );
 };
