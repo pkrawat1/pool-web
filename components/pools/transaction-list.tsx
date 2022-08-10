@@ -27,7 +27,8 @@ const TransactionList: NextPage<Props> = ({ transaction }) => {
     if (currentType === FilterTypes.ALL) {
       return allTransactions.length;
     }
-    return transaction[currentType].length;
+    // TODO : temp change
+    return (transaction as any)[currentType].length;
   }, [allTransactions.length, currentType, transaction]);
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
