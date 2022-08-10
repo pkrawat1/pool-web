@@ -68,8 +68,8 @@ const Home: NextPage = () => {
   };
 
   return (
-    <main className="flex justify-center">
-      <div className="container">
+    <main className="flex">
+      <div className="container mx-auto max-w-5xl">
         <PoolsList
           loading={
             favoritePoolsDataLoading ||

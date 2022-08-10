@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { IPool } from "@/types/";
 import { bigNumFormatter } from "@/lib/";
 import { useRouter } from "next/router";
+import { TokenLogo } from "@/components/";
 
 type Props = {
   pool: IPool;
@@ -15,8 +16,14 @@ const PoolListItem: NextPage<Props> = ({ pool }) => {
       className="bg-white cursor-pointer border-b hover:bg-gray-50"
       onClick={() => router.push(`/pools/${pool.id}`)}
     >
-      <td className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap truncate">
-        {pool.token0.symbol} / {pool.token1.symbol}
+      <td colSpan={2} className="py-4 px-6 text-gray-900 truncate">
+        <div className="flex items-center w-full">
+          <TokenLogo token={pool.token0} />
+          <TokenLogo token={pool.token1} />
+          <span className="ml-2">
+            {pool.token0.symbol.slice(0, 6)}/{pool.token1.symbol.slice(0, 6)}
+          </span>
+        </div>
       </td>
       <td className="py-4 px-6">{pool.txCount}</td>
       <td className="py-4 px-6">

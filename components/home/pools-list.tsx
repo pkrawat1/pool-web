@@ -1,7 +1,10 @@
 import type { NextPage } from "next";
 import { IPool } from "@/types/";
 import { PoolListItem, Loader } from "@/components/";
-import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from "@heroicons/react/solid";
+import {
+  ArrowCircleLeftIcon,
+  ArrowCircleRightIcon,
+} from "@heroicons/react/solid";
 
 type Props = {
   loading: boolean;
@@ -28,8 +31,18 @@ const PoolsList: NextPage<Props> = ({
   const renderTableHeader = () => (
     <thead>
       <tr>
-        {["Pool", "TX Count", "TVL (USD)", "Volume (USD)"].map((header) => (
-          <th key={header} scope="col" className="py-3 px-6">
+        {[
+          ["Pool", 2],
+          ["TX Count", 1],
+          ["TVL (USD)", 1],
+          ["Volume (USD)", 1],
+        ].map(([header, span]) => (
+          <th
+            key={header}
+            scope="col"
+            colSpan={span as number}
+            className="py-3 px-6"
+          >
             {header}
           </th>
         ))}
@@ -99,7 +112,7 @@ const PoolsList: NextPage<Props> = ({
         {!pools?.length ? (
           !loading && renderInfoMsg(noDataMsg)
         ) : (
-          <table className="table-fixed w-full text-md text-left text-gray-500 dark:text-gray-400">
+          <table className="min-w-full text-md text-left text-gray-500 dark:text-gray-400">
             {renderTableHeader()}
             {renderBody()}
           </table>

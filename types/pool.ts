@@ -3,14 +3,11 @@ export interface IPool {
   txCount: string
   totalValueLockedUSD: string
   volumeUSD: string
-  token0: IToken0
-  token1: IToken1
+  token0: IToken
+  token1: IToken
 }
 
-export interface IToken0 {
-  symbol: string
-}
-
-export interface IToken1 {
+export interface IToken {
+  id: string,
   symbol: string
 }

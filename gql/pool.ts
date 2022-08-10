@@ -8,9 +8,11 @@ export const GET_POOLS_LIST = gql`
       totalValueLockedUSD
       volumeUSD
       token0 {
+        id
         symbol
       }
       token1 {
+        id
         symbol
       }
     }
@@ -25,9 +27,11 @@ export const GET_SAVED_POOLS_LIST = gql`
       totalValueLockedUSD
       volumeUSD
       token0 {
+        id
         symbol
       }
       token1 {
+        id
         symbol
       }
     }

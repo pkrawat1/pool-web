@@ -8,19 +8,19 @@ import {
   StarIcon as StarOutlineIcon,
   ArrowLeftIcon,
 } from "@heroicons/react/outline";
-import { tokenImgSrc } from "@/lib/";
-import Image from "next/image";
+import { TokenLogo, Loader } from "@/components/";
 
 const Pool: NextPage = ({}) => {
   const router = useRouter();
   const {
     query: { id: poolID },
   } = router;
-  const { data: poolDetails } = useQuery(GET_POOL_DETAILS, {
+  const { loading, data: poolDetails } = useQuery(GET_POOL_DETAILS, {
     variables: { id: poolID },
   });
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoritePoolIds, setFavoritePoolIds] = useState([]);
+  const pool = poolDetails?.pool;
 
   useEffect(() => {
     let storage = localStorage.getItem("favoritePools");
@@ -53,11 +53,15 @@ const Pool: NextPage = ({}) => {
   );
 
   const renderTitle = () => (
-    <div className="flex text-gray-900 py-5 text-xl">
-      {renderTokenLogo("token0")} {renderTokenLogo("token1")}
-      <span className="ml-2">
-        {poolDetails?.pool?.token0.symbol} / {poolDetails?.pool?.token1.symbol}
-      </span>
+    <div className="flex justify-between text-gray-900 py-5 text-xl">
+      <div className="flex items-center">
+        <TokenLogo token={pool.token0} width="24" height="24" />
+        <TokenLogo token={pool.token1} width="24" height="24" />
+        <span className="ml-2">
+          {pool.token0.symbol} / {pool.token1.symbol}
+        </span>
+      </div>
+      <div className="inline-block">{renderFavButton()}</div>
     </div>
   );
 
@@ -66,57 +70,49 @@ const Pool: NextPage = ({}) => {
       <button
         type="button"
         onClick={handleToggleFavorite}
-        className="rounded-full p-2 text-center border-2 border-yellow-500"
+        className="rounded-full p-1 text-center border-2 border-yellow-500"
       >
         {isFavorite ? (
-          <StarIcon className="w-8 text-yellow-500" />
+          <StarIcon className="w-6 text-yellow-500" />
         ) : (
-          <StarOutlineIcon className="w-8 text-yellow-500" />
+          <StarOutlineIcon className="w-6 text-yellow-500" />
         )}
       </button>
     </div>
   );
 
-  const renderTokenLogo = (token: string) => (
-    <span className="flex p-1 border rounded-full border-gray-500">
-      <Image
-        src={tokenImgSrc(poolDetails?.pool[token].id)}
-        alt={""}
-        width="18"
-        height="18"
-      />
-    </span>
-  );
-
   const renderBlock = () => (
-    <div className="flex p-6 mt-5 bg-white rounded-lg border border-gray-200 shadow-md">
+    <div className="flex sm:max-w-full md:max-w-xs p-6 mt-5 bg-white rounded-lg border border-gray-200 shadow-md">
       <div className="flex flex-col mr-6">
         <h5 className="mb-2 text-l font-bold text-gray-900">
           Tokens value (USD)
         </h5>
         {["token0", "token1"].map((token: string) => (
-          <div key={token} className="inline-flex py-1">
-            {poolDetails?.pool && renderTokenLogo(token)}
-            <span className="ml-2">{poolDetails?.pool[token].symbol}</span>
+          <div key={token} className="inline-flex py-1 items-center">
+            {pool && <TokenLogo token={pool[token]} />}
+            <span className="ml-2">{pool[token].symbol}</span>
           </div>
         ))}
       </div>
       <div className="flex flex-col ml-6">
-        <h5 className="mb-2 text-l font-bold text-gray-900">TX Count</h5>
-        <span>{poolDetails?.pool?.txCount}</span>
+        <h5 className="mb-2 text-l font-bold text-gray-900 py-1">TX Count</h5>
+        <span>{pool.txCount}</span>
       </div>
     </div>
   );
 
   return (
-    <main className="flex justify-center my-10">
-      <div className="container">
-        {renderBackButton()}
-        {renderTitle()}
-        <div className="flex justify-between">
-          {renderBlock()}
-          {renderFavButton()}
-        </div>
+    <main className="flex mt-5 px-5">
+      <div className="container mx-auto max-w-5xl">
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            {renderBackButton()}
+            {renderTitle()}
+            {renderBlock()}
+          </>
+        )}
       </div>
     </main>
   );
