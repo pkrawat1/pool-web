@@ -25,10 +25,10 @@ const TransactionList: NextPage<Props> = ({ transaction }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = useMemo(() => {
     if (currentType === FilterTypes.ALL) {
-      return allTransactions.length;
+      return allTransactions.length / 10;
     }
     // TODO : temp change
-    return (transaction as any)[currentType].length;
+    return (transaction as any)[currentType].length / 10;
   }, [allTransactions.length, currentType, transaction]);
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;

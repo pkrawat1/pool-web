@@ -9,7 +9,7 @@ type Props = {
 
 const TransactionListItem: NextPage<Props> = ({ transaction }) => {
   return (
-    <tr key={transaction.transaction.id}>
+    <tr key={transaction.transaction.id} className="bg-white cursor-pointer border-b hover:bg-gray-50">
       <td className="py-3 px-6">
         <a
           className="text-blue-500 text-left"

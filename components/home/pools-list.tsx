@@ -117,7 +117,7 @@ const PoolsList: NextPage<Props> = ({
         {!pools?.length ? (
           !loading && renderInfoMsg(noDataMsg)
         ) : (
-          <table className="min-w-full text-md text-left text-gray-500 dark:text-gray-400">
+          <table className="min-w-full text-md text-left text-gray-500">
             {renderTableHeader()}
             {renderBody()}
           </table>
