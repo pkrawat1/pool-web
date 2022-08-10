@@ -8,7 +8,7 @@ import {
   StarIcon as StarOutlineIcon,
   ArrowLeftIcon,
 } from "@heroicons/react/outline";
-import { TokenLogo, Loader } from "@/components/";
+import { TokenLogo, Loader, TransactionList } from "@/components/";
 
 const Pool: NextPage = ({}) => {
   const router = useRouter();
@@ -18,6 +18,12 @@ const Pool: NextPage = ({}) => {
   const { loading, data: poolDetails } = useQuery(GET_POOL_DETAILS, {
     variables: { id: poolID },
   });
+  const { loading: loadingTransaction, data: transaction } = useQuery(
+    GET_POOL_TRANSACTIONS,
+    {
+      variables: { id: poolID, offset: 0, limit: 100 },
+    }
+  );
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoritePoolIds, setFavoritePoolIds] = useState([]);
   const pool = poolDetails?.pool;
@@ -111,6 +117,7 @@ const Pool: NextPage = ({}) => {
             {renderBackButton()}
             {renderTitle()}
             {renderBlock()}
+            {!loadingTransaction && <TransactionList transaction={transaction} />}
           </>
         )}
       </div>

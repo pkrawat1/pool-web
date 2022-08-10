@@ -57,14 +57,44 @@ export const GET_POOL_DETAILS = gql`
   }
 `;
 
-export const GET_POOL_TRANSACTIONS = (type: string) => gql`
-  query GetPoolTransactions($poolID: String!, $offset: Int!, $limit: Int!) {
-    ${type}(
+export const GET_POOL_TRANSACTIONS = gql`
+  query GetPoolTransactions($id: String!, $offset: Int!, $limit: Int!) {
+    mints(
       skip: $offset
       first: $limit
       orderBy: timestamp
       orderDirection: desc
-      where: { pool: $poolID }
+      where: { pool: $id }
+      subgraphError: allow
+    ) {
+      timestamp
+      transaction {
+        id
+      }
+      amountUSD
+      __typename
+    }
+    burns(
+      skip: $offset
+      first: $limit
+      orderBy: timestamp
+      orderDirection: desc
+      where: { pool: $id }
+      subgraphError: allow
+    ) {
+      timestamp
+      transaction {
+        id
+      }
+      amountUSD
+      __typename
+    }
+    swaps(
+      skip: $offset
+      first: $limit
+      orderBy: timestamp
+      orderDirection: desc
+      where: { pool: $id }
       subgraphError: allow
     ) {
       timestamp

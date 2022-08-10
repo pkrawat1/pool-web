@@ -14,3 +14,7 @@ export const bigNumFormatter = (num: string): string => {
 export const tokenImgSrc = (id: string) => {
   return `https://raw.githubusercontent.com/trustwallet/assets/old/blockchains/ethereum/assets/${id}/logo.png`;
 };
+
+export const transactionLink = (id: string) => {
+  return `https://etherscan.io/tx/${id}`;
+};
