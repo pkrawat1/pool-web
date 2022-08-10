@@ -6,7 +6,7 @@ const Pool: NextPage = ({}) => {
   const {
     query: { id },
   } = router
-  return <div>Pools</div>;
+  return <div>Pool</div>;
 };
 
 export default Pool;
