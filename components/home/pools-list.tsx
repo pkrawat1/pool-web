@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { IPool } from "@/types/";
-import PoolListItem from "./pool-list-item";
+import { PoolListItem, Loader } from "@/components/";
+import { ArrowCircleLeftIcon, ArrowCircleRightIcon } from "@heroicons/react/solid";
 
 type Props = {
   loading: boolean;
@@ -46,66 +47,64 @@ const PoolsList: NextPage<Props> = ({
 
   const renderPagination = () => (
     <nav
-      className="flex justify-center items-center pt-4"
+      className="flex justify-center items-center pt-4 pb-1"
       aria-label="Table navigation"
     >
-      <ul className="inline-flex items-center -space-x-px">
-        <li>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              !isFirstPage && updatePage(currentPage - 1);
-            }}
-            className="py-2 px-3 ml-0 text-blue-500 text-xl rounded-l-lg hover:text-blue-700"
-          >
-            <span className="sr-only">Previous</span>
-            {"<--"}
-          </a>
-        </li>
-        <li>
-          <span className="text-gray-500">
-            Page {currentPage} of {totalPages}
-          </span>
-        </li>
-        <li>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              !isLastPage && updatePage(currentPage + 1);
-            }}
-            className="py-2 px-3 ml-0 text-blue-500 text-xl rounded-r-lg hover:text-blue-700"
-          >
-            <span className="sr-only">Next</span>
-            {"-->"}
-          </a>
-        </li>
-      </ul>
+      {loading && !pools?.length ? (
+        <Loader />
+      ) : (
+        <ul className="inline-flex items-center">
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                !isFirstPage && updatePage(currentPage - 1);
+              }}
+              className="ml-0 text-blue-500 text-xl rounded-l-lg hover:text-blue-700"
+            >
+              <span className="sr-only">Previous</span>
+              <ArrowCircleLeftIcon className="w-8" />
+            </a>
+          </li>
+          <li>
+            <span className="text-gray-500 px-5">
+              Page {currentPage} of {totalPages}
+            </span>
+          </li>
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                !isLastPage && updatePage(currentPage + 1);
+              }}
+              className="ml-0 text-blue-500 text-xl rounded-r-lg hover:text-blue-700"
+            >
+              <span className="sr-only">Next</span>
+              <ArrowCircleRightIcon className="w-8" />
+            </a>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 
-  const renderInfoMsg = (msg: string) => (
-    <span className="bg-gray-100 p-3">{msg}</span>
-  );
+  const renderInfoMsg = (msg: string) => <span className="p-3">{msg}</span>;
 
   return (
     <div className="max-auto my-3 p-5">
       <legend className="text-2xl pb-3">{legend}</legend>
       <div className="rounded-lg bg-gray-100 p-3 overflow-x-auto relative shadow-md sm:rounded-lg">
-        {!loading ? (
-          !pools?.length ? (
-            renderInfoMsg(noDataMsg)
-          ) : (
-            <table className="w-full text-md text-left text-gray-500 dark:text-gray-400">
-              {renderTableHeader()}
-              {renderBody()}
-            </table>
-          )
+        {!pools?.length ? (
+          !loading && renderInfoMsg(noDataMsg)
         ) : (
-          renderInfoMsg("Loading ...")
+          <table className="table-fixed w-full text-md text-left text-gray-500 dark:text-gray-400">
+            {renderTableHeader()}
+            {renderBody()}
+          </table>
         )}
-        {!!pools?.length && renderPagination()}
+        {!!totalPages && renderPagination()}
       </div>
     </div>
   );

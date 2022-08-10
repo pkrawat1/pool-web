@@ -35,16 +35,18 @@ export const GET_SAVED_POOLS_LIST = gql`
 `;
 
 export const GET_POOL_DETAILS = gql`
-  query GetPoolDetails($poolID: String!) {
-    pool(id: $poolID) {
+  query GetPoolDetails($id: String!) {
+    pool(id: $id) {
       id
       txCount
       totalValueLockedUSD
       volumeUSD
       token0 {
+        id
         symbol
       }
       token1 {
+        id
         symbol
       }
     }

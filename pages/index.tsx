@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { PoolsList } from "./../components";
-import { GET_POOLS_LIST, GET_SAVED_POOLS_LIST } from "./../gql";
+import { PoolsList } from "@/components/";
+import { GET_POOLS_LIST, GET_SAVED_POOLS_LIST } from "@/gql/";
 import { NetworkStatus, useQuery } from "@apollo/client";
 
 const MAX_POOL = 100;
@@ -68,30 +68,32 @@ const Home: NextPage = () => {
   };
 
   return (
-    <main>
-      <PoolsList
-        loading={
-          favoritePoolsDataLoading &&
-          NetworkStatus.refetch === favoritePoolRefetch
-        }
-        pools={favoritePoolsData?.pools}
-        legend={"Pool Watch list"}
-        noDataMsg={"Saved pools here"}
-        currentPage={currentFavPoolPage}
-        totalPages={Math.trunc(favoritePoolIds.length / MAX_TABLE_SIZE + 1)}
-        updatePage={handleUpdatePageFavoritePools}
-      />
-      <PoolsList
-        loading={
-          allPoolsDataLoading && NetworkStatus.refetch === allPoolRefetch
-        }
-        pools={allPoolsData?.pools}
-        legend={"All Pools"}
-        noDataMsg={"All pools here"}
-        currentPage={currentPoolPage}
-        totalPages={10}
-        updatePage={handleUpdatePageAllPools}
-      />
+    <main className="flex justify-center">
+      <div className="container">
+        <PoolsList
+          loading={
+            favoritePoolsDataLoading ||
+            NetworkStatus.refetch === favoritePoolRefetch
+          }
+          pools={favoritePoolsData?.pools}
+          legend={"Pool Watch list"}
+          noDataMsg={"Saved pools here"}
+          currentPage={currentFavPoolPage}
+          totalPages={Math.ceil(favoritePoolIds.length / MAX_TABLE_SIZE )}
+          updatePage={handleUpdatePageFavoritePools}
+        />
+        <PoolsList
+          loading={
+            allPoolsDataLoading || NetworkStatus.refetch === allPoolRefetch
+          }
+          pools={allPoolsData?.pools}
+          legend={"All Pools"}
+          noDataMsg={"All pools here"}
+          currentPage={currentPoolPage}
+          totalPages={Math.ceil(MAX_POOL / MAX_TABLE_SIZE)}
+          updatePage={handleUpdatePageAllPools}
+        />
+      </div>
     </main>
   );
 };

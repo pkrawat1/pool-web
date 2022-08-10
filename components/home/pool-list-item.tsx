@@ -12,10 +12,10 @@ const PoolListItem: NextPage<Props> = ({ pool }) => {
   return (
     <tr
       key={pool.id}
-      className="bg-white border-b hover:bg-gray-50"
+      className="bg-white cursor-pointer border-b hover:bg-gray-50"
       onClick={() => router.push(`/pools/${pool.id}`)}
     >
-      <td className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+      <td className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap truncate">
         {pool.token0.symbol} / {pool.token1.symbol}
       </td>
       <td className="py-4 px-6">{pool.txCount}</td>

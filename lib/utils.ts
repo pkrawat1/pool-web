@@ -10,3 +10,7 @@ export const bigNumFormatter = (num: string): string => {
     return bigNum.toFixed(2).toString(); // if value < 1000, nothing to do
   }
 };
+
+export const tokenImgSrc = (id: string) => {
+  return `https://raw.githubusercontent.com/trustwallet/assets/old/blockchains/ethereum/assets/${id}/logo.png`;
+};
