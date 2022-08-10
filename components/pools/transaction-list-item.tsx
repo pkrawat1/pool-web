@@ -10,20 +10,22 @@ type Props = {
 const TransactionListItem: NextPage<Props> = ({ transaction }) => {
   return (
     <tr key={transaction.transaction.id}>
-      <td className="py-4 px-6 truncate">
+      <td className="py-3 px-6">
         <a
-          className="text-blue-500"
+          className="text-blue-500 text-left"
           target="_blank"
           rel="noopener noreferrer"
           href={transactionLink(transaction.transaction.id)}
         >
-          Transaction Link
+          {transaction.transaction.id.slice(0, 20)}...
         </a>
       </td>
-      <td className="py-4 px-6">{transaction.__typename}</td>
-      <td className="py-4 px-6">{bigNumFormatter(transaction.amountUSD)}</td>
-      <td className="py-4 px-6">
-        <Moment fromNow unix>{transaction.timestamp}</Moment>
+      <td className="px-6 text-center hidden sm:hidden md:table-cell">{transaction.__typename}</td>
+      <td className="px-6 text-center hidden sm:table-cell">{bigNumFormatter(transaction.amountUSD)}</td>
+      <td className="px-6 text-right">
+        <Moment fromNow unix>
+          {transaction.timestamp}
+        </Moment>
       </td>
     </tr>
   );

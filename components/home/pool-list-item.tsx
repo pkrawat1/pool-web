@@ -17,7 +17,7 @@ const PoolListItem: NextPage<Props> = ({ pool }) => {
       onClick={() => router.push(`/pools/${pool.id}`)}
     >
       <td colSpan={2} className="py-4 px-6 text-gray-900 truncate">
-        <div className="flex items-center w-full">
+        <div className="flex items-center w-full text-left">
           <TokenLogo token={pool.token0} />
           <TokenLogo token={pool.token1} />
           <span className="ml-2">
@@ -25,11 +25,11 @@ const PoolListItem: NextPage<Props> = ({ pool }) => {
           </span>
         </div>
       </td>
-      <td className="py-4 px-6">{pool.txCount}</td>
-      <td className="py-4 px-6">
+      <td className="py-4 px-6 text-center hidden sm:hidden md:table-cell">{pool.txCount}</td>
+      <td className="py-4 px-6 text-center hidden sm:table-cell">
         ${bigNumFormatter(pool.totalValueLockedUSD)}
       </td>
-      <td className="py-4 px-6">${bigNumFormatter(pool.volumeUSD)}</td>
+      <td className="py-4 px-6 text-right">${bigNumFormatter(pool.volumeUSD)}</td>
     </tr>
   );
 };

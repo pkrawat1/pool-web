@@ -35,21 +35,26 @@ const TransactionList: NextPage<Props> = ({ transaction }) => {
   const renderTableHeader = () => (
     <thead>
       <tr>
-        {[
-          ["Link to Etherscan", 1],
-          ["TX Type", 1],
-          ["Token Amount (USD)", 1],
-          ["Timestamp", 1],
-        ].map(([header, span]) => (
-          <th
-            key={header}
-            scope="col"
-            colSpan={span as number}
-            className="py-3 px-6"
-          >
-            {header}
-          </th>
-        ))}
+        <th scope="col" colSpan={1} className="py-3 px-6">
+          Link to Etherscan
+        </th>
+        <th
+          scope="col"
+          colSpan={1}
+          className="py-3 px-6 text-center hidden sm:hidden md:table-cell"
+        >
+          TX Type
+        </th>
+        <th
+          scope="col"
+          colSpan={1}
+          className="py-3 px-6 text-center hidden sm:table-cell"
+        >
+          Token Amount (USD)
+        </th>
+        <th scope="col" colSpan={1} className="py-3 px-6 text-right">
+          Timestamp
+        </th>
       </tr>
     </thead>
   );
@@ -120,7 +125,7 @@ const TransactionList: NextPage<Props> = ({ transaction }) => {
         {!allTransactions?.length ? (
           renderInfoMsg("No transactions found")
         ) : (
-          <table className="min-w-full text-md text-left text-gray-500 dark:text-gray-400">
+          <table className="table-fixed min-w-full text-md text-left text-gray-500 dark:text-gray-400">
             {renderTableHeader()}
             {renderBody()}
           </table>

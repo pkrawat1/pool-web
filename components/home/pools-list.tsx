@@ -31,21 +31,26 @@ const PoolsList: NextPage<Props> = ({
   const renderTableHeader = () => (
     <thead>
       <tr>
-        {[
-          ["Pool", 2],
-          ["TX Count", 1],
-          ["TVL (USD)", 1],
-          ["Volume (USD)", 1],
-        ].map(([header, span]) => (
-          <th
-            key={header}
-            scope="col"
-            colSpan={span as number}
-            className="py-3 px-6"
-          >
-            {header}
-          </th>
-        ))}
+        <th scope="col" colSpan={2} className="py-3 px-6">
+          Pool
+        </th>
+        <th
+          scope="col"
+          colSpan={1}
+          className="py-3 px-6 text-center hidden sm:hidden md:table-cell"
+        >
+          TX Count
+        </th>
+        <th
+          scope="col"
+          colSpan={1}
+          className="py-3 px-6 text-center hidden sm:table-cell"
+        >
+          TVL (USD)
+        </th>
+        <th scope="col" colSpan={1} className="py-3 px-6 text-right">
+          Volume (USD)
+        </th>
       </tr>
     </thead>
   );
