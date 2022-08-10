@@ -119,7 +119,7 @@ const TransactionList: NextPage<Props> = ({ transaction }) => {
   const renderInfoMsg = (msg: string) => <span className="p-3">{msg}</span>;
 
   return (
-    <div className="max-auto my-3 p-5">
+    <div className="max-auto my-3 py-5">
       <legend className="text-2xl pb-3">Transactions</legend>
       <div className="rounded-lg bg-gray-100 p-3 overflow-x-auto relative shadow-md sm:rounded-lg">
         {!allTransactions?.length ? (
