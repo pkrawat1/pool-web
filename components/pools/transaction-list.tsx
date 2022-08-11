@@ -2,36 +2,55 @@ import type { NextPage } from "next";
 import { useMemo, useState } from "react";
 import { IPoolTransaction } from "@/types/";
 import { TransactionListItem, Loader } from "@/components/";
-import { ArrowCircleRightIcon } from "@heroicons/react/solid";
-import { ArrowCircleLeftIcon } from "@heroicons/react/solid";
+import {
+  ArrowCircleLeftIcon,
+  ArrowCircleRightIcon,
+} from "@heroicons/react/solid";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 type Props = {
+  loading: boolean;
   transaction: IPoolTransaction;
 };
 
-const FilterTypes = {
-  ALL: "all",
-  Mints: "mints",
-  Swaps: "swaps",
-  Burns: "burns",
+const FilterTypes: { [key: string]: string } = {
+  All: "All",
+  Mints: "Mints",
+  Swaps: "Swaps",
+  Burns: "Burns",
 };
 
-const TransactionList: NextPage<Props> = ({ transaction }) => {
+const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
   const allTransactions = useMemo(
-    () => [...transaction.mints, ...transaction.burns, ...transaction.swaps],
-    [transaction.burns, transaction.mints, transaction.swaps]
+    () =>
+      loading
+        ? []
+        : [...transaction?.mints, ...transaction?.burns, ...transaction?.swaps],
+    [loading, transaction?.burns, transaction?.mints, transaction?.swaps]
   );
-  const [currentType, setCurrentType] = useState(FilterTypes.ALL);
+
+  const [currentType, setCurrentType] = useState(FilterTypes.All);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = useMemo(() => {
-    if (currentType === FilterTypes.ALL) {
-      return allTransactions.length / 10;
+
+  const filteredTransactions = useMemo(() => {
+    if (currentType === FilterTypes.All) {
+      return allTransactions;
     }
-    // TODO : temp change
-    return (transaction as any)[currentType].length / 10;
-  }, [allTransactions.length, currentType, transaction]);
+    const type: "mints" | "burns" | "swaps" = FilterTypes[
+      currentType
+    ].toLowerCase() as any;
+    return transaction[type];
+  }, [allTransactions, currentType, transaction]);
+
+  const totalPages = useMemo(
+    () => filteredTransactions.length / 10,
+    [filteredTransactions.length]
+  );
+
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages;
+
   const renderTableHeader = () => (
     <thead>
       <tr>
@@ -60,11 +79,11 @@ const TransactionList: NextPage<Props> = ({ transaction }) => {
   );
   const renderBody = () => (
     <tbody>
-      {allTransactions
-        ?.slice(currentPage * 10, currentPage * 10 + 10)
-        .map((transaction) => (
+      {filteredTransactions
+        ?.slice((currentPage - 1) * 10, (currentPage - 1) * 10 + 10)
+        .map((transaction, index) => (
           <TransactionListItem
-            key={transaction.transaction.id}
+            key={transaction.transaction.id + index}
             transaction={transaction}
           />
         ))}
@@ -80,57 +99,80 @@ const TransactionList: NextPage<Props> = ({ transaction }) => {
       className="flex justify-center items-center pt-4 pb-1"
       aria-label="Table navigation"
     >
-      <ul className="inline-flex items-center">
-        <li>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              !isFirstPage && updatePage(currentPage - 1);
-            }}
-            className="ml-0 text-blue-500 text-xl rounded-l-lg hover:text-blue-700"
-          >
-            <span className="sr-only">Previous</span>
-            <ArrowCircleLeftIcon className="w-8" />
-          </a>
-        </li>
-        <li>
-          <span className="text-gray-500 px-5">
-            Page {currentPage} of {totalPages}
-          </span>
-        </li>
-        <li>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              !isLastPage && updatePage(currentPage + 1);
-            }}
-            className="ml-0 text-blue-500 text-xl rounded-r-lg hover:text-blue-700"
-          >
-            <span className="sr-only">Next</span>
-            <ArrowCircleRightIcon className="w-8" />
-          </a>
-        </li>
-      </ul>
+      {loading ? (
+        <Loader />
+      ) : (
+        <ul className="inline-flex items-center">
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                !isFirstPage && updatePage(currentPage - 1);
+              }}
+              className="ml-0 text-blue-500 text-xl rounded-l-lg hover:text-blue-700"
+            >
+              <span className="sr-only">Previous</span>
+              <ArrowCircleLeftIcon className="w-8" />
+            </a>
+          </li>
+          <li>
+            <span className="text-gray-500 px-5">
+              Page {currentPage} of {totalPages}
+            </span>
+          </li>
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                !isLastPage && updatePage(currentPage + 1);
+              }}
+              className="ml-0 text-blue-500 text-xl rounded-r-lg hover:text-blue-700"
+            >
+              <span className="sr-only">Next</span>
+              <ArrowCircleRightIcon className="w-8" />
+            </a>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 
   const renderInfoMsg = (msg: string) => <span className="p-3">{msg}</span>;
 
+  const renderFilters = () => (
+    <div className="flex justify-between py-3">
+      <div>
+        <legend className="text-2xl pb-3 mr-5">Transactions</legend>
+      </div>
+      <div>
+
+      <Dropdown
+        options={Object.keys(FilterTypes)}
+        onChange={(val) => {
+          setCurrentPage(1);
+          setCurrentType(val.value);
+        }}
+        value={currentType}
+        placeholder="Select an option"
+      />
+      </div>
+    </div>
+  );
   return (
     <div className="max-auto my-3 py-5">
-      <legend className="text-2xl pb-3">Transactions</legend>
+      {renderFilters()}
       <div className="rounded-lg bg-gray-100 p-3 overflow-x-auto relative shadow-md sm:rounded-lg">
-        {!allTransactions?.length ? (
-          renderInfoMsg("No transactions found")
+        {!filteredTransactions?.length ? (
+          !loading && renderInfoMsg("No transactions found")
         ) : (
           <table className="table-fixed min-w-full text-md text-left text-gray-500 dark:text-gray-400">
             {renderTableHeader()}
             {renderBody()}
           </table>
         )}
-        {!!totalPages && renderPagination()}
+        {renderPagination()}
       </div>
     </div>
   );

@@ -117,7 +117,7 @@ const Pool: NextPage = ({}) => {
             {renderBackButton()}
             {renderTitle()}
             {renderBlock()}
-            {!loadingTransaction && <TransactionList transaction={transaction} />}
+            <TransactionList loading={loadingTransaction} transaction={transaction} />
           </>
         )}
       </div>
