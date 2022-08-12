@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "load:tokens": "node scripts/token-list.js",
-    "test": "start-server-and-test start http://localhost:3000 cypress"
+    "test": "cypress run"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
