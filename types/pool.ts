@@ -1,3 +1,5 @@
+import { IToken } from '@/types/';
+
 export interface IPool {
   id: string;
   txCount: string;
@@ -5,11 +7,6 @@ export interface IPool {
   volumeUSD: string;
   token0: IToken;
   token1: IToken;
-}
-
-export interface IToken {
-  id: string;
-  symbol: string;
 }
 
 export interface IPoolTransaction {

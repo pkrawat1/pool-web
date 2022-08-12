@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["raw.githubusercontent.com"],
+    domains: ["raw.githubusercontent.com", "assets-cdn.trustwallet.com"],
   },
   webpack: (config) => {
     config.resolve.plugins.push(

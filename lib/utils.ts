@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import { tokenList } from '@/lib/';
 
 export const bigNumFormatter = (num: string): string => {
   let bigNum = BigNumber(num);
@@ -12,7 +13,7 @@ export const bigNumFormatter = (num: string): string => {
 };
 
 export const tokenImgSrc = (id: string) => {
-  return `https://raw.githubusercontent.com/trustwallet/assets/old/blockchains/ethereum/assets/${id}/logo.png`;
+  return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${tokenList[id.toLowerCase()]}/logo.png`
 };
 
 export const transactionLink = (id: string) => {
