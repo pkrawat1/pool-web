@@ -16,9 +16,9 @@ type Props = {
 
 const FilterTypes: { [key: string]: string } = {
   All: "All",
-  Mints: "Mints",
-  Swaps: "Swaps",
-  Burns: "Burns",
+  Mints: "mints",
+  Swaps: "swaps",
+  Burns: "burns",
 };
 
 const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
@@ -44,8 +44,8 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
   }, [allTransactions, currentType, transaction]);
 
   const totalPages = useMemo(
-    () => filteredTransactions.length / 10,
-    [filteredTransactions.length]
+    () => Math.ceil(filteredTransactions?.length / 10),
+    [filteredTransactions?.length]
   );
 
   const isFirstPage = currentPage === 1;
@@ -96,13 +96,13 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
 
   const renderPagination = () => (
     <nav
-      className="flex justify-center items-center pt-4 pb-1"
+      className="flex justify-center items-center"
       aria-label="Table navigation"
     >
       {loading ? (
         <Loader />
-      ) : (
-        <ul className="inline-flex items-center">
+      ) : (!!totalPages && 
+        <ul className="inline-flex items-center pt-4 pb-1">
           <li>
             <a
               href="#"
@@ -110,7 +110,7 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
                 e.preventDefault();
                 !isFirstPage && updatePage(currentPage - 1);
               }}
-              className="ml-0 text-blue-500 text-xl rounded-l-lg hover:text-blue-700"
+              className={`ml-0 text-xl rounded-l-lg ${!isFirstPage ? 'text-blue-500 hover:text-blue-700' : 'text-blue-300'}`}
             >
               <span className="sr-only">Previous</span>
               <ArrowCircleLeftIcon className="w-8" />
@@ -128,7 +128,7 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
                 e.preventDefault();
                 !isLastPage && updatePage(currentPage + 1);
               }}
-              className="ml-0 text-blue-500 text-xl rounded-r-lg hover:text-blue-700"
+              className={`ml-0 text-xl rounded-l-lg ${!isLastPage ? 'text-blue-500 hover:text-blue-700' : 'text-blue-300'}`}
             >
               <span className="sr-only">Next</span>
               <ArrowCircleRightIcon className="w-8" />
@@ -160,6 +160,7 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
       </div>
     </div>
   );
+
   return (
     <div className="max-auto my-3 py-5">
       {renderFilters()}

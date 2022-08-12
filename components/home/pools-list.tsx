@@ -79,7 +79,7 @@ const PoolsList: NextPage<Props> = ({
                 e.preventDefault();
                 !isFirstPage && updatePage(currentPage - 1);
               }}
-              className="ml-0 text-blue-500 text-xl rounded-l-lg hover:text-blue-700"
+              className={`ml-0 text-xl rounded-l-lg ${!isFirstPage ? 'text-blue-500 hover:text-blue-700' : 'text-blue-300'}`}
             >
               <span className="sr-only">Previous</span>
               <ArrowCircleLeftIcon className="w-8" />
@@ -97,7 +97,7 @@ const PoolsList: NextPage<Props> = ({
                 e.preventDefault();
                 !isLastPage && updatePage(currentPage + 1);
               }}
-              className="ml-0 text-blue-500 text-xl rounded-r-lg hover:text-blue-700"
+              className={`ml-0 text-xl rounded-l-lg ${!isLastPage ? 'text-blue-500 hover:text-blue-700' : 'text-blue-300'}`}
             >
               <span className="sr-only">Next</span>
               <ArrowCircleRightIcon className="w-8" />
