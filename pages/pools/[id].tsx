@@ -109,7 +109,7 @@ const Pool: NextPage = ({}) => {
 
   return (
     <main className="flex mt-5 px-5">
-      <div className="container mx-auto max-w-5xl">
+      <div className="container mx-auto max-w-5xl text-sm md:text-base">
         {loading ? (
           <Loader />
         ) : (

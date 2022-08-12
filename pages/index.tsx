@@ -69,7 +69,7 @@ const Home: NextPage = () => {
 
   return (
     <main className="flex">
-      <div className="container mx-auto max-w-5xl">
+      <div className="container mx-auto max-w-5xl text-sm md:text-base">
         <PoolsList
           loading={
             favoritePoolsDataLoading ||

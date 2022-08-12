@@ -9,7 +9,7 @@ type Props = {
 
 const TransactionListItem: NextPage<Props> = ({ transaction }) => {
   return (
-    <tr key={transaction.transaction.id} className="bg-white cursor-pointer border-b hover:bg-gray-50">
+    <tr key={transaction.transaction.id} className="bg-white border-b hover:bg-gray-50">
       <td className="py-3 px-6">
         <a
           className="text-blue-500 text-left"
@@ -17,7 +17,7 @@ const TransactionListItem: NextPage<Props> = ({ transaction }) => {
           rel="noopener noreferrer"
           href={transactionLink(transaction.transaction.id)}
         >
-          {transaction.transaction.id.slice(0, 20)}...
+          {transaction.transaction.id.slice(0, 15)}...
         </a>
       </td>
       <td className="px-6 text-center hidden sm:hidden md:table-cell">{transaction.__typename}</td>
