@@ -6,7 +6,7 @@ import {
   ApolloProvider,
   NormalizedCacheObject,
 } from "@apollo/client";
-import { createApolloClient } from "./apollo-client";
+import { createApolloClient } from "@/lib/";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>();
