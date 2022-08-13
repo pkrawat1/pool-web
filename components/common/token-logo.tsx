@@ -21,7 +21,7 @@ const TokenLogo: NextPage<Props> = ({ token, width, height }) => {
         width={width || "18"}
         height={height || "18"}
         className="rounded-full"
-        onError={() => setSrc('https://placehold.jp/32/ffffff/ff0000/40x40.jpg?text=%E2%9A%A0')}
+        onError={() => setSrc('/invalid-40x40.webp')}
       />
     </span>
   );
