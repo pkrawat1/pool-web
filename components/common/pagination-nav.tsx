@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { memo } from "react";
 import {
   ArrowCircleLeftIcon,
   ArrowCircleRightIcon,
@@ -67,4 +68,4 @@ const PaginationNav: NextPage<Props> = ({
   );
 };
 
-export default PaginationNav;
+export default memo(PaginationNav);

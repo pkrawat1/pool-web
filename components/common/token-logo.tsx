@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { IToken } from "@/types/";
 import Image from "next/image";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { tokenImgSrc } from "@/lib/";
 
 type Props = {
@@ -27,4 +27,4 @@ const TokenLogo: NextPage<Props> = ({ token, width, height }) => {
   );
 };
 
-export default TokenLogo;
+export default memo(TokenLogo);
