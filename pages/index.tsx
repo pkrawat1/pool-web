@@ -3,10 +3,7 @@ import { useEffect, useState } from "react";
 import { PoolsList } from "@/components/";
 import { GET_POOLS_LIST, GET_SAVED_POOLS_LIST } from "@/gql/";
 import { NetworkStatus, useQuery } from "@apollo/client";
-
-const MAX_POOL = 100;
-const MAX_TABLE_SIZE = 10;
-const MAX_POOL_PAGE = MAX_POOL / MAX_TABLE_SIZE;
+import { MAX_POOL, MAX_POOL_PAGE, MAX_TABLE_SIZE } from "@/types/";
 
 const Home: NextPage = () => {
   const {
