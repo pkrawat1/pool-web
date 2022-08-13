@@ -1,10 +1,6 @@
 import type { NextPage } from "next";
 import { IPool } from "@/types/";
-import { PoolListItem, Loader } from "@/components/";
-import {
-  ArrowCircleLeftIcon,
-  ArrowCircleRightIcon,
-} from "@heroicons/react/solid";
+import { PoolListItem, Loader, PaginationNav } from "@/components/";
 
 type Props = {
   loading: boolean;
@@ -25,8 +21,6 @@ const PoolsList: NextPage<Props> = ({
   totalPages,
   updatePage,
 }) => {
-  const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === totalPages;
 
   const renderTableHeader = () => (
     <thead>
@@ -65,50 +59,18 @@ const PoolsList: NextPage<Props> = ({
 
   const renderPagination = () => (
     <nav
-      className="flex justify-center items-center pt-4 pb-1"
+      className="flex justify-center items-center"
       aria-label="Table navigation"
     >
       {loading && !pools?.length ? (
         <Loader />
       ) : (
-        <ul className="inline-flex items-center">
-          <li>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                !isFirstPage && updatePage(currentPage - 1);
-              }}
-              className={`ml-0 text-xl rounded-l-lg ${!isFirstPage ? 'text-blue-500 hover:text-blue-700' : 'text-blue-300'}`}
-            >
-              <span className="sr-only">Previous</span>
-              <ArrowCircleLeftIcon className="w-8" />
-            </a>
-          </li>
-          <li>
-            <span className="text-gray-500 px-5">
-              Page {currentPage} of {totalPages}
-            </span>
-          </li>
-          <li>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                !isLastPage && updatePage(currentPage + 1);
-              }}
-              className={`ml-0 text-xl rounded-l-lg ${!isLastPage ? 'text-blue-500 hover:text-blue-700' : 'text-blue-300'}`}
-            >
-              <span className="sr-only">Next</span>
-              <ArrowCircleRightIcon className="w-8" />
-            </a>
-          </li>
-        </ul>
+        <PaginationNav  className="pt-4" currentPage={currentPage}  totalPages={totalPages} updatePage={updatePage} />
       )}
     </nav>
   );
 
-  const renderInfoMsg = (msg: string) => <span className="p-3">{msg}</span>;
+  const renderInfoMsg = (msg: string) => <span className="p-3 no-data-msg">{msg}</span>;
 
   return (
     <div className="max-auto my-3 p-5">
@@ -117,7 +79,7 @@ const PoolsList: NextPage<Props> = ({
         {!pools?.length ? (
           !loading && renderInfoMsg(noDataMsg)
         ) : (
-          <table className="min-w-full text-md text-left text-gray-500">
+          <table className="table-fixed min-w-full text-md text-left text-gray-500  text-sm md:text-base">
             {renderTableHeader()}
             {renderBody()}
           </table>

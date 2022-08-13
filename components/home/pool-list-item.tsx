@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { memo } from "react";
 import { IPool } from "@/types/";
 import { bigNumFormatter } from "@/lib/";
 import { useRouter } from "next/router";
@@ -34,4 +35,4 @@ const PoolListItem: NextPage<Props> = ({ pool }) => {
   );
 };
 
-export default PoolListItem;
+export default memo(PoolListItem);

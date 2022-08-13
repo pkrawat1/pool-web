@@ -1,24 +1,13 @@
 import type { NextPage } from "next";
 import { useMemo, useState } from "react";
-import { IPoolTransaction } from "@/types/";
-import { TransactionListItem, Loader } from "@/components/";
-import {
-  ArrowCircleLeftIcon,
-  ArrowCircleRightIcon,
-} from "@heroicons/react/solid";
+import { FilterTypes, IPoolTransaction } from "@/types/";
+import { TransactionListItem, Loader, PaginationNav } from "@/components/";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 
 type Props = {
   loading: boolean;
   transaction: IPoolTransaction;
-};
-
-const FilterTypes: { [key: string]: string } = {
-  All: "All",
-  Mints: "mints",
-  Swaps: "swaps",
-  Burns: "burns",
 };
 
 const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
@@ -47,9 +36,6 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
     () => Math.ceil(filteredTransactions?.length / 10),
     [filteredTransactions?.length]
   );
-
-  const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === totalPages;
 
   const renderTableHeader = () => (
     <thead>
@@ -102,39 +88,7 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
       {loading ? (
         <Loader />
       ) : (!!totalPages && 
-        <ul className="inline-flex items-center pt-4 pb-1">
-          <li>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                !isFirstPage && updatePage(currentPage - 1);
-              }}
-              className={`ml-0 text-xl rounded-l-lg ${!isFirstPage ? 'text-blue-500 hover:text-blue-700' : 'text-blue-300'}`}
-            >
-              <span className="sr-only">Previous</span>
-              <ArrowCircleLeftIcon className="w-8" />
-            </a>
-          </li>
-          <li>
-            <span className="text-gray-500 px-5">
-              Page {currentPage} of {totalPages}
-            </span>
-          </li>
-          <li>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                !isLastPage && updatePage(currentPage + 1);
-              }}
-              className={`ml-0 text-xl rounded-l-lg ${!isLastPage ? 'text-blue-500 hover:text-blue-700' : 'text-blue-300'}`}
-            >
-              <span className="sr-only">Next</span>
-              <ArrowCircleRightIcon className="w-8" />
-            </a>
-          </li>
-        </ul>
+        <PaginationNav className="pt-4" currentPage={currentPage}  totalPages={totalPages} updatePage={updatePage} />
       )}
     </nav>
   );
@@ -168,7 +122,7 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
         {!filteredTransactions?.length ? (
           !loading && renderInfoMsg("No transactions found")
         ) : (
-          <table className="table-fixed min-w-full text-md text-left text-gray-500 dark:text-gray-400">
+          <table className="table-fixed min-w-full text-md text-left text-gray-500 text-sm md:text-base">
             {renderTableHeader()}
             {renderBody()}
           </table>

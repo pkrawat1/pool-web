@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { memo } from 'react';
 import Moment from "react-moment";
 import { IBurn, IMint, ISwap } from "@/types/";
 import { bigNumFormatter, transactionLink } from "@/lib/";
@@ -31,4 +32,4 @@ const TransactionListItem: NextPage<Props> = ({ transaction }) => {
   );
 };
 
-export default TransactionListItem;
+export default memo(TransactionListItem);

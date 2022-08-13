@@ -88,7 +88,7 @@ const Pool: NextPage = ({}) => {
   );
 
   const renderBlock = () => (
-    <div className="flex sm:max-w-full md:max-w-xs p-6 mt-5 bg-white rounded-lg border border-gray-200 shadow-md">
+    <div className="flex sm:max-w-full md:max-w-sm p-6 mt-5 bg-white rounded-lg border border-gray-200 shadow-md">
       <div className="flex flex-col mr-6">
         <h5 className="mb-2 text-l font-bold text-gray-900">
           Tokens value (USD)
@@ -101,15 +101,15 @@ const Pool: NextPage = ({}) => {
         ))}
       </div>
       <div className="flex flex-col ml-6">
-        <h5 className="mb-2 text-l font-bold text-gray-900 py-1">TX Count</h5>
-        <span>{pool.txCount}</span>
+        <h5 className="mb-2 text-l font-bold text-gray-900">TX Count</h5>
+        <span className="py-1">{pool.txCount}</span>
       </div>
     </div>
   );
 
   return (
     <main className="flex mt-5 px-5">
-      <div className="container mx-auto max-w-5xl text-sm md:text-base">
+      <div className="container mx-auto max-w-5xl">
         {loading ? (
           <Loader />
         ) : (
