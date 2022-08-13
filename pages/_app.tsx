@@ -1,18 +1,28 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { useState, useEffect } from "react";
+import {
+  ApolloClient,
+  ApolloProvider,
+  NormalizedCacheObject,
+} from "@apollo/client";
+import { createApolloClient } from "./apollo-client";
 
-const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_API_URL,
-  cache: new InMemoryCache(),
-});
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>();
 
-function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    const init = async () => setClient(await createApolloClient());
+    init().catch(console.error);
+  }, []);
+
   return (
-    <ApolloProvider client={client}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+    client && (
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    )
   );
-}
+};
 
 export default MyApp;
