@@ -7,6 +7,5 @@ describe("home Page", () => {
     cy.get("legend").contains("Pool Watch list");
 
     cy.get("span.no-data-msg").contains("Saved pools here");
-    cy.get("span").contains("Page 1 of 10");
   });
 });

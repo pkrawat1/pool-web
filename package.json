@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "load:tokens": "node scripts/token-list.js",
-    "cypress": "cypress run",
+    "cyp": "cypress run",
     "test": "jest --watch"
   },
   "dependencies": {
