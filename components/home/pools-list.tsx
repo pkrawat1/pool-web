@@ -21,7 +21,6 @@ const PoolsList: NextPage<Props> = ({
   totalPages,
   updatePage,
 }) => {
-
   const renderTableHeader = () => (
     <thead>
       <tr>
@@ -65,12 +64,19 @@ const PoolsList: NextPage<Props> = ({
       {loading && !pools?.length ? (
         <Loader />
       ) : (
-        <PaginationNav  className="pt-4" currentPage={currentPage}  totalPages={totalPages} updatePage={updatePage} />
+        <PaginationNav
+          className="pt-4"
+          currentPage={currentPage}
+          totalPages={totalPages}
+          updatePage={updatePage}
+        />
       )}
     </nav>
   );
 
-  const renderInfoMsg = (msg: string) => <span className="p-3 no-data-msg">{msg}</span>;
+  const renderInfoMsg = (msg: string) => (
+    <span className="p-3 no-data-msg">{msg}</span>
+  );
 
   return (
     <div className="max-auto my-3 p-5">

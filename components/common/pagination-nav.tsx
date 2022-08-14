@@ -31,11 +31,12 @@ const PaginationNav: NextPage<Props> = ({
               e.preventDefault();
               !isFirstPage && updatePage(currentPage - 1);
             }}
-            className={`ml-0 text-xl rounded-l-lg ${
+            className={`prevBtn ml-0 text-xl rounded-l-lg ${
               !isFirstPage
                 ? "text-blue-500 hover:text-blue-700"
                 : "text-blue-300"
             }`}
+            role="button"
           >
             <span className="sr-only">Previous</span>
             <ArrowCircleLeftIcon className="w-8" />
@@ -53,11 +54,12 @@ const PaginationNav: NextPage<Props> = ({
               e.preventDefault();
               !isLastPage && updatePage(currentPage + 1);
             }}
-            className={`ml-0 text-xl rounded-l-lg ${
+            className={`nextBtn ml-0 text-xl rounded-l-lg ${
               !isLastPage
                 ? "text-blue-500 hover:text-blue-700"
                 : "text-blue-300"
             }`}
+            role="button"
           >
             <span className="sr-only">Next</span>
             <ArrowCircleRightIcon className="w-8" />

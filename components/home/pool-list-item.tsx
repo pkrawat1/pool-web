@@ -26,11 +26,15 @@ const PoolListItem: NextPage<Props> = ({ pool }) => {
           </span>
         </div>
       </td>
-      <td className="py-4 px-6 text-center hidden sm:hidden md:table-cell">{pool.txCount}</td>
+      <td className="py-4 px-6 text-center hidden sm:hidden md:table-cell">
+        {pool.txCount}
+      </td>
       <td className="py-4 px-6 text-center hidden sm:table-cell">
         ${bigNumFormatter(pool.totalValueLockedUSD)}
       </td>
-      <td className="py-4 px-6 text-right">${bigNumFormatter(pool.volumeUSD)}</td>
+      <td className="py-4 px-6 text-right">
+        ${bigNumFormatter(pool.volumeUSD)}
+      </td>
     </tr>
   );
 };
