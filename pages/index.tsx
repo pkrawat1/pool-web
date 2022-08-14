@@ -3,7 +3,12 @@ import { useEffect, useState } from "react";
 import { PoolsList } from "@/components/";
 import { GET_POOLS_LIST, GET_SAVED_POOLS_LIST } from "@/gql/";
 import { NetworkStatus, useQuery } from "@apollo/client";
-import { MAX_POOL, MAX_POOL_PAGE, MAX_TABLE_SIZE } from "@/types/";
+import {
+  API_ERROR_MSG,
+  MAX_POOL,
+  MAX_POOL_PAGE,
+  MAX_TABLE_SIZE,
+} from "@/types/";
 
 const Home: NextPage = () => {
   const {
@@ -11,6 +16,7 @@ const Home: NextPage = () => {
     networkStatus: allPoolRefetch,
     data: allPoolsData,
     refetch: fetchNextPoolPage,
+    error: allPoolsDataError,
   } = useQuery(GET_POOLS_LIST, {
     variables: { offset: 0, limit: MAX_TABLE_SIZE },
     notifyOnNetworkStatusChange: true,
@@ -22,6 +28,7 @@ const Home: NextPage = () => {
     data: favoritePoolsData,
     networkStatus: favoritePoolRefetch,
     refetch: fetchNextFavoritePoolPage,
+    error: favoritePoolDataError,
   } = useQuery(GET_SAVED_POOLS_LIST, {
     variables: { ids: favoritePoolIds, offset: 0, limit: MAX_TABLE_SIZE },
   });
@@ -74,9 +81,9 @@ const Home: NextPage = () => {
           }
           pools={favoritePoolsData?.pools}
           legend={"Pool Watch list"}
-          noDataMsg={"Saved pools here"}
+          noDataMsg={favoritePoolDataError ? API_ERROR_MSG : "Saved pools here"}
           currentPage={currentFavPoolPage}
-          totalPages={Math.ceil(favoritePoolIds.length / MAX_TABLE_SIZE )}
+          totalPages={Math.ceil(favoritePoolIds.length / MAX_TABLE_SIZE)}
           updatePage={handleUpdatePageFavoritePools}
         />
         <PoolsList
@@ -85,7 +92,9 @@ const Home: NextPage = () => {
           }
           pools={allPoolsData?.pools}
           legend={"All Pools"}
-          noDataMsg={"All pools here"}
+          noDataMsg={
+            allPoolsDataError?.message ? API_ERROR_MSG : "All pools here"
+          }
           currentPage={currentPoolPage}
           totalPages={Math.ceil(MAX_POOL / MAX_TABLE_SIZE)}
           updatePage={handleUpdatePageAllPools}

@@ -9,21 +9,27 @@ import {
   ArrowLeftIcon,
 } from "@heroicons/react/outline";
 import { TokenLogo, Loader, TransactionList } from "@/components/";
+import { API_ERROR_MSG } from "@/types/";
 
 const Pool: NextPage = ({}) => {
   const router = useRouter();
   const {
     query: { id: poolID },
   } = router;
-  const { loading, data: poolDetails } = useQuery(GET_POOL_DETAILS, {
+  const {
+    loading,
+    data: poolDetails,
+    error: poolDetailError,
+  } = useQuery(GET_POOL_DETAILS, {
     variables: { id: poolID },
   });
-  const { loading: loadingTransaction, data: transaction } = useQuery(
-    GET_POOL_TRANSACTIONS,
-    {
-      variables: { id: poolID, offset: 0, limit: 100 },
-    }
-  );
+  const {
+    loading: loadingTransaction,
+    data: transaction,
+    error: transactionError,
+  } = useQuery(GET_POOL_TRANSACTIONS, {
+    variables: { id: poolID, offset: 0, limit: 100 },
+  });
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoritePoolIds, setFavoritePoolIds] = useState([]);
   const pool = poolDetails?.pool;
@@ -112,12 +118,21 @@ const Pool: NextPage = ({}) => {
       <div className="container mx-auto max-w-5xl">
         {loading ? (
           <Loader />
+        ) : poolDetailError ? (
+          <span className="p-3 no-data-msg">{API_ERROR_MSG}</span>
         ) : (
           <>
             {renderBackButton()}
             {renderTitle()}
             {renderBlock()}
-            <TransactionList loading={loadingTransaction} transaction={transaction} />
+            {transactionError ? (
+              <span className="p-3 no-data-msg">{API_ERROR_MSG}</span>
+            ) : (
+              <TransactionList
+                loading={loadingTransaction}
+                transaction={transaction}
+              />
+            )}
           </>
         )}
       </div>
