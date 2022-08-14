@@ -14,11 +14,11 @@ const customJestConfig = {
   moduleDirectories: ['node_modules', '<rootDir>/'],
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
-    '^@/components/$': '<rootDir>/components/$1',
-    '^@/types/$': '<rootDir>/types/$1',
-    '^@/pages/$': '<rootDir>/pages/$1',
-    '^@/gql/$': '<rootDir>/gql/$1',
-    '^@/lib/$': '<rootDir>/lib/$1',
+    '^@/components/(.*)$': '<rootDir>/components/$1',
+    '^@/types/(.*)$': '<rootDir>/types/$1',
+    '^@/pages/(.*)$': '<rootDir>/pages/$1',
+    '^@/gql/(.*)$': '<rootDir>/gql/$1',
+    '^@/lib/(.*)$': '<rootDir>/lib/$1',
   }
 }
 

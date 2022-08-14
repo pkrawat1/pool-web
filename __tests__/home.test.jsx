@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import Home from "@/pages/";
 import "@testing-library/jest-dom";
@@ -16,7 +16,7 @@ describe("Home", () => {
         },
         result: {
           data: {
-            pools: {
+            pools: [{
               id: "0x00cef0386ed94d738c8f8a74e8bfd0376926d24c",
               txCount: "11329",
               totalValueLockedUSD: "24631273.77982835932191393258546832",
@@ -29,19 +29,22 @@ describe("Home", () => {
                 id: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
                 symbol: "USDC",
               },
-            },
+            }],
           },
         },
       },
     ];
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocks} addTypename={true}>
         <Home />
       </MockedProvider>
     );
     expect(await screen.findByText("All pools here")).toBeInTheDocument();
     expect(
       await screen.findByText(`Page 1 of ${MAX_TABLE_SIZE}`)
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText(`USDC`)
     ).toBeInTheDocument();
   });
 });
