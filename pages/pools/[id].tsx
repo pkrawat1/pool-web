@@ -78,19 +78,19 @@ const Pool: NextPage = () => {
   );
 
   const renderFavButton = () => (
-    <div className="">
-      <button
-        type="button"
-        onClick={handleToggleFavorite}
-        className="rounded-full p-1 text-center border-2 border-yellow-500"
-      >
-        {isFavorite ? (
-          <StarIcon className="w-6 text-yellow-500" />
-        ) : (
-          <StarOutlineIcon className="w-6 text-yellow-500" />
-        )}
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={handleToggleFavorite}
+      className="rounded-full p-1 text-center border-2 border-yellow-500"
+      role="button"
+    >
+      <span className="sr-only">Save pool</span>
+      {isFavorite ? (
+        <StarIcon className="w-6 text-yellow-500" />
+      ) : (
+        <StarOutlineIcon className="w-6 text-yellow-500" />
+      )}
+    </button>
   );
 
   const renderBlock = () => (

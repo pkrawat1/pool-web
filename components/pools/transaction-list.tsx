@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useMemo, useState } from "react";
-import { FilterTypes, IPoolTransaction } from "@/types/";
+import { FilterTypes, IPoolTransaction, TransactionType } from "@/types/";
 import { TransactionListItem, Loader, PaginationNav } from "@/components/";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -15,7 +15,11 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
     () =>
       loading
         ? []
-        : [...transaction?.mints, ...transaction?.burns, ...transaction?.swaps],
+        : [
+            ...transaction?.mints,
+            ...transaction?.burns,
+            ...transaction?.swaps,
+          ].sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)),
     [loading, transaction?.burns, transaction?.mints, transaction?.swaps]
   );
 
@@ -26,7 +30,7 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
     if (currentType === FilterTypes.All) {
       return allTransactions;
     }
-    const type: "mints" | "burns" | "swaps" = FilterTypes[
+    const type: TransactionType = FilterTypes[
       currentType
     ].toLowerCase() as any;
     return transaction[type];
@@ -87,8 +91,15 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
     >
       {loading ? (
         <Loader />
-      ) : (!!totalPages && 
-        <PaginationNav className="pt-4" currentPage={currentPage}  totalPages={totalPages} updatePage={updatePage} />
+      ) : (
+        !!totalPages && (
+          <PaginationNav
+            className="pt-4"
+            currentPage={currentPage}
+            totalPages={totalPages}
+            updatePage={updatePage}
+          />
+        )
       )}
     </nav>
   );
@@ -101,16 +112,15 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
         <legend className="text-2xl pb-3 mr-5">Transactions</legend>
       </div>
       <div>
-
-      <Dropdown
-        options={Object.keys(FilterTypes)}
-        onChange={(val) => {
-          setCurrentPage(1);
-          setCurrentType(val.value);
-        }}
-        value={currentType}
-        placeholder="Select an option"
-      />
+        <Dropdown
+          options={Object.keys(FilterTypes)}
+          onChange={(val) => {
+            setCurrentPage(1);
+            setCurrentType(val.value);
+          }}
+          value={currentType}
+          placeholder="Select an option"
+        />
       </div>
     </div>
   );
