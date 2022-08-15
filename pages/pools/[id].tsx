@@ -11,7 +11,7 @@ import {
 import { TokenLogo, Loader, TransactionList } from "@/components/";
 import { API_ERROR_MSG } from "@/types/";
 
-const Pool: NextPage = ({}) => {
+const Pool: NextPage = () => {
   const router = useRouter();
   const {
     query: { id: poolID },
