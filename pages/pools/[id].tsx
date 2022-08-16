@@ -16,16 +16,15 @@ const Pool: NextPage = () => {
   const {
     query: { id: poolID },
   } = router;
-  const {
-    loading,
-    data: poolDetails,
-    error: poolDetailError,
-  } = useQuery(GET_POOL_DETAILS, {
-    variables: { id: poolID },
-  });
+  const { data: poolDetails, error: poolDetailError } = useQuery(
+    GET_POOL_DETAILS,
+    {
+      variables: { id: poolID },
+    }
+  );
   const {
     loading: loadingTransaction,
-    data: transaction,
+    data: transactionDetails,
     error: transactionError,
   } = useQuery(GET_POOL_TRANSACTIONS, {
     variables: { id: poolID, offset: 0, limit: 100 },
@@ -33,6 +32,12 @@ const Pool: NextPage = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoritePoolIds, setFavoritePoolIds] = useState([]);
   const pool = poolDetails?.pool;
+  const transaction = {
+    mints: [],
+    swaps: [],
+    burns: [],
+    ...transactionDetails,
+  };
 
   useEffect(() => {
     let storage = localStorage.getItem("favoritePools");
@@ -64,18 +69,21 @@ const Pool: NextPage = () => {
     </button>
   );
 
-  const renderTitle = () => (
-    <div className="flex justify-between text-gray-900 py-5 text-xl">
-      <div className="flex items-center">
-        <TokenLogo token={pool.token0} width="24" height="24" />
-        <TokenLogo token={pool.token1} width="24" height="24" />
-        <span className="ml-2">
-          {pool.token0.symbol} / {pool.token1.symbol}
-        </span>
+  const renderTitle = () => {
+    const { token0, token1 } = pool;
+    return (
+      <div className="flex justify-between text-gray-900 py-5 text-xl">
+        <div className="flex items-center">
+          <TokenLogo token={token0} width="24" height="24" />
+          <TokenLogo token={token1} width="24" height="24" />
+          <span className="ml-2">
+            {token0.symbol} / {token1.symbol}
+          </span>
+        </div>
+        <div className="inline-block">{renderFavButton()}</div>
       </div>
-      <div className="inline-block">{renderFavButton()}</div>
-    </div>
-  );
+    );
+  };
 
   const renderFavButton = () => (
     <button
@@ -116,7 +124,7 @@ const Pool: NextPage = () => {
   return (
     <main className="flex mt-5 px-5">
       <div className="container mx-auto max-w-5xl">
-        {loading ? (
+        {!pool ? (
           <Loader />
         ) : poolDetailError ? (
           <span className="p-3 no-data-msg">{API_ERROR_MSG}</span>

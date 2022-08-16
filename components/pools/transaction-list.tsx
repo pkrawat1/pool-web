@@ -13,14 +13,12 @@ type Props = {
 const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
   const allTransactions = useMemo(
     () =>
-      loading
-        ? []
-        : [
-            ...transaction?.mints,
-            ...transaction?.burns,
-            ...transaction?.swaps,
-          ].sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)),
-    [loading, transaction?.burns, transaction?.mints, transaction?.swaps]
+      [
+        ...transaction?.mints,
+        ...transaction?.burns,
+        ...transaction?.swaps,
+      ].sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)),
+    [transaction?.burns, transaction?.mints, transaction?.swaps]
   );
 
   const [currentType, setCurrentType] = useState(FilterTypes.All);
@@ -30,9 +28,7 @@ const TransactionList: NextPage<Props> = ({ loading, transaction }) => {
     if (currentType === FilterTypes.All) {
       return allTransactions;
     }
-    const type: TransactionType = FilterTypes[
-      currentType
-    ].toLowerCase() as any;
+    const type = FilterTypes[currentType].toLowerCase() as TransactionType;
     return transaction[type];
   }, [allTransactions, currentType, transaction]);
 
