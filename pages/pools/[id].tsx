@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { GET_POOL_DETAILS, GET_POOL_TRANSACTIONS } from "@/gql/";
@@ -32,12 +32,12 @@ const Pool: NextPage = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoritePoolIds, setFavoritePoolIds] = useState<string[]>([]);
   const pool = poolDetails?.pool;
-  const transaction = {
+  const transaction = useMemo(() => ({
     mints: [],
     swaps: [],
     burns: [],
     ...transactionDetails,
-  };
+  }), [transactionDetails]);
 
   useEffect(() => {
     let storage = localStorage.getItem("favoritePools");
