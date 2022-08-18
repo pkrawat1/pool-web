@@ -30,7 +30,7 @@ const Pool: NextPage = () => {
     variables: { id: poolID, offset: 0, limit: 100 },
   });
   const [isFavorite, setIsFavorite] = useState(false);
-  const [favoritePoolIds, setFavoritePoolIds] = useState([]);
+  const [favoritePoolIds, setFavoritePoolIds] = useState<string[]>([]);
   const pool = poolDetails?.pool;
   const transaction = {
     mints: [],
@@ -57,6 +57,7 @@ const Pool: NextPage = () => {
     }
     localStorage.setItem("favoritePools", JSON.stringify(updatedFavoriteIds));
     setIsFavorite(!isFavorite);
+    setFavoritePoolIds(updatedFavoriteIds);
   };
 
   const renderBackButton = () => (
@@ -93,11 +94,10 @@ const Pool: NextPage = () => {
       role="button"
     >
       <span className="sr-only">Save pool</span>
-      {isFavorite ? (
-        <StarIcon className="w-6 text-yellow-500" />
-      ) : (
-        <StarOutlineIcon className="w-6 text-yellow-500" />
-      )}
+      <StarIcon className={`w-6 text-yellow-500 ${!isFavorite && "hidden"}`} />
+      <StarOutlineIcon
+        className={`w-6 text-yellow-500 ${isFavorite && "hidden"}`}
+      />
     </button>
   );
 

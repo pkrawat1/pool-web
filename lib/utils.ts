@@ -13,7 +13,7 @@ export const bigNumFormatter = (num: string): string => {
 };
 
 export const tokenImgSrc = (id: string) => {
-  return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${tokenList[id.toLowerCase()]}/logo.png`
+  return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${tokenList[id.toLowerCase()] || id}/logo.png`
 };
 
 export const transactionLink = (id: string) => {
